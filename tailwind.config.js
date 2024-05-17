@@ -11,6 +11,7 @@ module.exports = {
       },
       fontFamily: {
         'comfortaa': ["Comfortaa", "sans-serif"],
+        'body': ["Catamaran", "sans-serif"]
       },
     },
   },

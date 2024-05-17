@@ -2,20 +2,20 @@ import userIcon from "../assets/icons/User.svg"
 
 function SessionCard(){
     return(
-        <div className="w-80% border border-white rounded-md flex p-4">
-            <div>
+        <div className="border border-white rounded-md flex w-[80%] text-lg">
+            <div className="p-5">
                 <embed src={userIcon} type="" />
             </div>
-            <div>
+            <div className="py-5 pr-5">
                 <span>
-                    <h2>Usuario</h2>
+                    <h2 className="font-bold">Usuario</h2>
                     <p>123456789101112</p>
                 </span>
                 <span>
-                    <h2>monto a pagar:</h2>
-                    <span className=" rounded-md py-1 px-2">
-                        <p className="">$0.00</p>
-                    </span>
+                    <h2  className="font-bold">monto a pagar:</h2>
+                    <div className="border border-white rounded-md ">
+                        <p className="p-1">$0.00</p>
+                    </div>
                 </span>
             </div>
         </div>
