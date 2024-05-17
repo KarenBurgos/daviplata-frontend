@@ -61,9 +61,7 @@ function SplittBillSession() {
             <div class="control_indicator"></div>
           </label>
         </form>
-        <div>
             <SessionCard/>
-        </div>
       </h1>
     </div>
   );
