@@ -6,8 +6,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LayoutMenu from './pages/layoutMenu';
 import Budget from './pages/budget'
-import SplitBill from './pages/splitBill';
-import SplitBillSession from './pages/splitBillSession';
+import SplitBill from './pages/splitBill/splitBill';
+import SplitBillSession from './pages/splitBill/splitBillSession';
+import SplitBillCode from './pages/splitBill/splitBillCode';
 
 const router = createBrowserRouter([
   { 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "splitbill",
         element: <SplitBill/>
+      },
+      {
+        path: "splitbill/session/code",
+        element: <SplitBillCode/>
       },
       {
         path: "splitbill/session",

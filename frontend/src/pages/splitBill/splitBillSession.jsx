@@ -1,15 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "../assets/radioInput.css";
-import SessionCard from "../components/sessionCard";
+import "../../assets/radioInput.css";
+import SessionCard from "../../components/sessionCard";
 
 function SplittBillSession() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("equitativo");
-
-  function onHandlerClick(menu) {
-    navigate(`/${menu}`);
-  }
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -61,7 +57,7 @@ function SplittBillSession() {
             <div class="control_indicator"></div>
           </label>
         </form>
-            <SessionCard/>
+            <SessionCard selection={selectedOption}/>
       </h1>
     </div>
   );
