@@ -1,7 +1,6 @@
-// Dropdown.js
 import React, { useState } from 'react';
 
-const Dropdown = ({categorySelect, setCategorySelect}) => {
+const Dropdown = ({ setCategoryId, categorySelect, setCategorySelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const categories = [
     'Mensualidad',
@@ -13,6 +12,12 @@ const Dropdown = ({categorySelect, setCategorySelect}) => {
     'Vivienda',
     'Personal'
   ];
+
+  const handleCategorySelect = (category, index) => {
+    setCategorySelect(category);
+    setCategoryId(index); // Guardar el índice de la categoría seleccionada
+    setIsOpen(false); // Cerrar el menú desplegable después de seleccionar una categoría
+  };
 
   return (
     <div className="relative inline-block text-left">
@@ -47,13 +52,9 @@ const Dropdown = ({categorySelect, setCategorySelect}) => {
                 key={index}
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => 
-                    setIsOpen(false)
-                }
+                onClick={() => handleCategorySelect(category, index)} // Llama a la función de manejo de selección de categoría
               >
-                <p onClick={()=>{setCategorySelect(category)}}>
-                  {category}
-                </p>
+                {category}
               </a>
             ))}
           </div>

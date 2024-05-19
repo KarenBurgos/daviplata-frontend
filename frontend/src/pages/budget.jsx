@@ -11,6 +11,7 @@ function Budget() {
     const user = initialBudgetData.users[0]; 
     const [budgetData, setBudgetData] = useState(user.Services);
     const [accountData, setAccountData] = useState(user.Account);
+    
 
     const { nombre, precio, fecha, isLocked } = location.state || {};
 
