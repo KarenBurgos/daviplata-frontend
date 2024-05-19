@@ -11,6 +11,7 @@ import SplitBillSession from './pages/splitBill/splitBillSession';
 import SplitBillCode from './pages/splitBill/splitBillCode';
 import ReserveMoney from'./pages/reserveMoney';
 import SplittBillSessionPay from './pages/splitBill/splitBillSessionPay';
+import Login from './pages/login'
 
 const router = createBrowserRouter([
   { 
