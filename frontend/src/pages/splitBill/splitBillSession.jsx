@@ -5,13 +5,17 @@ import SessionCard from "../../components/sessionCard";
 import optionsIcon from "../../assets/icons/options.png";
 
 const SplittBillSession = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [options, setOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState("equitativo");
 
+  function onHandlerNavigate(menu) {
+    navigate(`/${menu}`);
+  }
+
   function goBack() {
-    navigation(-1);
+    navigate(-1);
   }
 
   const handleOptionView = () => {
@@ -100,6 +104,7 @@ const SplittBillSession = () => {
       <div className="flex items-center pt-5"> 
         <button
           className="py-2 px-7 mr-2 bg-primary rounded-md w-[80%] text-xl"
+          onClick={() => {onHandlerNavigate("usuario/splitbill")}}
         >
           Pagar
         </button>

@@ -20,7 +20,7 @@ function SplittBill() {
   }
 
   function handleAccept() {
-    navigate("/splitbill/session/pay");
+    navigate("session/pay");
   }
 
   return (
@@ -31,7 +31,7 @@ function SplittBill() {
           <button
             className="bg-transparent border border-white rounded-md my-4 w-[60%] py-2 text-lg"
             onClick={() => {
-              onHandlerClick("splitbill/session/code");
+              onHandlerClick("usuario/splitbill/session/code");
             }}
           >
             Crear sala

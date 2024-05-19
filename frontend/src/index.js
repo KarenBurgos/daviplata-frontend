@@ -15,36 +15,40 @@ import Login from './pages/login'
 import AddService from './pages/addService';
 
 const router = createBrowserRouter([
-  { 
+  {
     path: "/",
+    element: <Login />,
+  },
+  { 
+    path: "/usuario",
     element: <LayoutMenu />,
     children: [
       {
-        path: "/",
+        path: "/usuario",
         element: <Budget/>
       },
       {
-        path: "splitbill",
+        path: "/usuario/splitbill",
         element: <SplitBill/>
       },
       {
-        path: "splitbill/session/code",
+        path: "/usuario/splitbill/session/code",
         element: <SplitBillCode/>
       },
       {
-        path: "splitbill/session",
+        path: "/usuario/splitbill/session",
         element: <SplitBillSession/>
       },
       {
-        path: "splitbill/session/pay",
+        path: "/usuario/splitbill/session/pay",
         element: <SplittBillSessionPay/>
       },
       {
-        path: "budget/reserve-service",
+        path: "/usuario/budget/reserve-service",
         element: <ReserveMoney/>
       },
       {
-        path:"budget/add-service",
+        path:"/usuario/budget/add-service",
         element: <AddService/>
       }
     ]

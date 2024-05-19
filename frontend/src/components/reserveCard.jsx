@@ -18,14 +18,14 @@ const ReserveCard = () => {
         console.log("Aceptar");
         console.log(isLocked);
         // Redireccionar a "/"
-        navigate('/' , { state: { nombre, precio, fecha, isLocked: !isLocked} });
+        navigate('/usuario' , { state: { nombre, precio, fecha, isLocked: !isLocked} });
     };
 
     const handleCancel = () => {
         // Lógica de cancelación...
         console.log("Cancelar");
         // Redireccionar a "/"
-        navigate("/");
+        navigate("/usuario");
     };
 
     return (

@@ -19,14 +19,14 @@ const Card = () => {
         // Lógica de confirmación...
         console.log("Aceptar");
         // Redireccionar a "/"
-        navigate("/");
+        navigate("/usuario");
     };
 
     const handleCancel = () => {
         // Lógica de cancelación...
         console.log("Cancelar");
         // Redireccionar a "/"
-        navigate("/");
+        navigate("/usuario");
     };
 
     return (

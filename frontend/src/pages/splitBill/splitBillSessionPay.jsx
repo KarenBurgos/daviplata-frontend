@@ -7,14 +7,14 @@ function SplittBillSessionPay() {
         // Lógica de confirmación...
         console.log("Aceptar");
         // Redireccionar a "/"
-        navigate("/");
+        navigate("/usuario/splitbill");
     };
 
     const handleCancel = () => {
         // Lógica de cancelación...
-        console.log("Cancelar");
+        console.log("usuario/Cancelar");
         // Redireccionar a "/"
-        navigate("/");
+        navigate("/usuario/splitbill");
     };
 
   return (

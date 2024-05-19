@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import daviLogo from "../assets/icons/Davivienda_Logo.png"; // Asegúrate de importar tu logo
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   // Dummy data
   const users = [
     { dui: '12345678-9', password: 'password1' },
@@ -90,6 +93,7 @@ const Login = () => {
           <button
             type="submit"
             className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            onClick={()=>{navigate("/usuario")}}
           >
             Continuar
           </button>

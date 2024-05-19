@@ -28,7 +28,7 @@ function SplitBillCode() {
       <button
         className="my-3 mt-10 bg-primary rounded-md w-[80%] py-2 text-xl"
         onClick={() => {
-          onHandlerClick("splitbill/session");
+          onHandlerClick("usuario/splitbill/session");
         }}
       >
         Aceptar
@@ -36,7 +36,7 @@ function SplitBillCode() {
       <button
         className="my-3 bg-secondary rounded-md w-[80%] py-2 text-xl"
         onClick={() => {
-          onHandlerClick("splitbill");
+          onHandlerClick("usuario/splitbill");
         }}
       >
         Cancelar

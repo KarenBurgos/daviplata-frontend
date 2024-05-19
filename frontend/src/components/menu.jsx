@@ -18,7 +18,7 @@ function Menu() {
                 <embed src={payIcon} type="" />
                 <p>Pagar</p>
             </div>
-            <div className="flex flex-col justify-center items-center" onClick={() => onHandlerClick("")}>
+            <div className="flex flex-col justify-center items-center" onClick={() => onHandlerClick("usuario")}>
                 <embed src={budgetIcon} type="" />
                 <p>Presupuesto</p>
             </div>
@@ -26,7 +26,7 @@ function Menu() {
                 <embed src={sacarIcon} type="" />
                 <p>Sacar</p>
             </div>
-            <div className="flex flex-col justify-center items-center" onClick={() => onHandlerClick("splitbill")}>
+            <div className="flex flex-col justify-center items-center" onClick={() => onHandlerClick("usuario/splitbill")}>
                 <embed src={splitBillIcon} type="" />
                 <p>Dividir</p>
             </div>

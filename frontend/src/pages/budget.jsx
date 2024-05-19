@@ -82,7 +82,7 @@ function Budget() {
                 ))}
             </div>
             
-            <div className="fixed bottom-[10vh] left-0 right-0 bg-black border-t border-white p-4 text-center"> {/* Ajuste del margen inferior */}
+            <div className="fixed bottom-[10vh] left-0 right-0 bg-black p-4 text-center"> {/* Ajuste del margen inferior */}
                 <div className="text-white">
                     <p>Gastos totales: $0.00</p>
                     <p>Saldo actual: $0.00</p>
