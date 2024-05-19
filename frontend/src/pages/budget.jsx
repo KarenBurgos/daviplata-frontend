@@ -68,7 +68,7 @@ function Budget() {
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-black overflow-y-auto px-4 pb-40"> {/* Ajuste del overflow-y */}
-            <h1 className="text-white text-2xl mt-6">Presupuesto</h1>
+            <h1 className="text-white text-2xl mt-6 font-bold">PRESUPUESTO</h1>
             
             <div className="w-full flex flex-col items-center mt-4 space-y-4 px-4 pb-24"> {/* Ajuste del espaciado */}
                 {budgetData.map((item) => (
