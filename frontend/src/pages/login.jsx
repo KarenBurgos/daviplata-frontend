@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import daviLogo from "../assets/icons/Davivienda_Logo.png"; // Asegúrate de importar tu logo
+import budgetData from '../data/budgetData'; // Importa los datos de presupuesto
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
   const navigate = useNavigate();
 
-  // Dummy data
-  const users = [
-    { dui: '12345678-9', password: 'password1' },
-    { dui: '98765432-1', password: 'password2' },
-  ];
+  // Extrae los usuarios de los datos importados
+  const users = budgetData.users.map(user => ({
+    dui: user.DUI,
+    password: user.Password
+  }));
 
   const [dui, setDui] = useState('');
   const [password, setPassword] = useState('');
+
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -28,7 +32,12 @@ const Login = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      });
+      },
+
+      // Guarda el usuario en el localStorage
+      localStorage.setItem('user', JSON.stringify(user.dui)),
+
+      navigate('/usuario', { state: { user } }));
       // Aquí puedes redirigir al usuario a otra página o realizar otras acciones
     } else {
       toast.error('Usuario o contraseña incorrectos', {
@@ -93,7 +102,6 @@ const Login = () => {
           <button
             type="submit"
             className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            onClick={()=>{navigate("/usuario")}}
           >
             Continuar
           </button>
