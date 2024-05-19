@@ -7,7 +7,7 @@ module.exports = {
         background: "#000000",
         primary: "#BF0019",
         white: "#FFF3F4",
-        placeholder: "#BDBDBD",
+        secondary: "#5F5F5F",
       },
       fontFamily: {
         'comfortaa': ["Comfortaa", "sans-serif"],
