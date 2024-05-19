@@ -9,6 +9,7 @@ import Budget from './pages/budget'
 import SplitBill from './pages/splitBill';
 import SplitBillSession from './pages/splitBillSession';
 import ReserveMoney from'./pages/reserveMoney';
+import AddService from './pages/addService';
 
 const router = createBrowserRouter([
   { 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "budget/reserve-service",
         element: <ReserveMoney/>
+      },
+      {
+        path:"budget/add-service",
+        element: <AddService/>
       }
     ]
   }

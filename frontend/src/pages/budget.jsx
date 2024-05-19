@@ -5,6 +5,13 @@ import ServiceCard from "../components/serviceCard";
 function Budget() {
     const navigate = useNavigate();
 
+    const handleConfirm = () => {
+        // Lógica de confirmación...
+        console.log("Aceptar");
+        // Redireccionar a "/"
+        navigate("budget/add-service");
+    };
+
     return (
         <div className="flex flex-col items-center min-h-screen bg-black pb-24"> {/* Ajuste del padding-bottom */}
             <h1 className="text-white text-2xl mt-6">Presupuesto</h1>
@@ -23,7 +30,7 @@ function Budget() {
                     <p>Saldo actual: $0.00</p>
                     <p>Saldo restante: $0.00</p>
                 </div>
-                <button className="mt-2 bg-red-500 text-white py-2 px-4 rounded">
+                <button className="mt-2 bg-red-500 text-white py-2 px-4 rounded" onClick={handleConfirm}>
                     Agregar
                 </button>
             </div>
