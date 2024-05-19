@@ -6,6 +6,7 @@ import datepicker from '../assets/icons/datepicker.svg'
 const Card = () => {
     const navigate = useNavigate();
     const [amount, setAmount] = useState(0.00);
+    const [categorySelect, setCategorySelect] = useState("seleccionar categoria")
 
     const incrementAmount = () => {
         setAmount(prevAmount => prevAmount + 1);
@@ -55,12 +56,12 @@ const Card = () => {
             </div>
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Categoría:</label>
-                <Dropdown />
+                <Dropdown categorySelect={categorySelect} setCategorySelect={setCategorySelect}/>
             </div>
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Fecha:</label>
                 <div className="flex items-center">
-                    <embed src={datepicker}/>
+                    <embed src={datepicker} />
                     <input
                         type="text"
                         placeholder="DD/MM/AAAA"
@@ -68,22 +69,26 @@ const Card = () => {
                     />
                 </div>
             </div>
-            <div className="mb-4">
-                <label className="flex items-center">
-                    <input
-                        type="checkbox"
-                        className="form-checkbox h-5 w-5 text-indigo-600"
-                    />
-                    <span className="ml-2">Pagar automáticamente</span>
-                </label>
-            </div>
-            <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Número de cuenta:</label>
-                <input
-                    type="text"
-                    className="block w-full px-4 py-2 text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-            </div>
+            {(categorySelect == 'Mensualidad' || categorySelect == 'Matricula' || categorySelect == 'gym') &&
+                <div>
+                    <div className="mb-4">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                className="form-checkbox h-5 w-5 text-indigo-600"
+                            />
+                            <span className="ml-2">Pagar automáticamente</span>
+                        </label>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Número de cuenta:</label>
+                        <input
+                            type="text"
+                            className="block w-full px-4 py-2 text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                    </div>
+                </div>
+            }
             <div className="flex justify-between">
                 <button
                     onClick={handleConfirm}

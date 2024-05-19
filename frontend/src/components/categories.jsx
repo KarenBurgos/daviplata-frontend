@@ -1,7 +1,7 @@
 // Dropdown.js
 import React, { useState } from 'react';
 
-const Dropdown = () => {
+const Dropdown = ({categorySelect, setCategorySelect}) => {
   const [isOpen, setIsOpen] = useState(false);
   const categories = [
     'Mensualidad',
@@ -19,10 +19,10 @@ const Dropdown = () => {
       <div>
         <button
           type="button"
-          className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className=" w-[50vw] inline-flex justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={() => setIsOpen(!isOpen)}
         >
-          Seleccionar categoria
+          {categorySelect}
           <svg
             className="w-5 h-5 ml-2 -mr-1"
             xmlns="http://www.w3.org/2000/svg"
@@ -47,9 +47,13 @@ const Dropdown = () => {
                 key={index}
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setIsOpen(false)}
+                onClick={() => 
+                    setIsOpen(false)
+                }
               >
-                {category}
+                <p onClick={()=>{setCategorySelect(category)}}>
+                  {category}
+                </p>
               </a>
             ))}
           </div>
