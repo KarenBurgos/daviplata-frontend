@@ -9,6 +9,8 @@ import Budget from './pages/budget'
 import SplitBill from './pages/splitBill/splitBill';
 import SplitBillSession from './pages/splitBill/splitBillSession';
 import SplitBillCode from './pages/splitBill/splitBillCode';
+import ReserveMoney from'./pages/reserveMoney';
+import SplittBillSessionPay from './pages/splitBill/splitBillSessionPay';
 
 const router = createBrowserRouter([
   { 
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "splitbill/session",
         element: <SplitBillSession/>
+      },
+      {
+        path: "splitbill/session/pay",
+        element: <SplittBillSessionPay/>
+      },
+      {
+        path: "budget/reserve-service",
+        element: <ReserveMoney/>
       }
     ]
   }

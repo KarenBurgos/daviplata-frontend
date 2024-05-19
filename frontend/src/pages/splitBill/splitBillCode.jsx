@@ -13,9 +13,9 @@ function SplitBillCode() {
         <h2 className="text-lg text-center">Creando sala</h2>
       </span>
 
-      <div className="border border-white rounded-md py-10 w-[80%] flex flex-col justify-center items-center my-5">
-        <h1 className="text-3xl">Codigo: #######</h1>
-        <h2 className="text-2xl pt-5 pb-2">Ingresar monto a pagar:</h2>
+      <div className="rounded-md py-10 w-[80%] flex flex-col justify-center items-center my-5">
+        <h1 className="text-2xl">Codigo: #######</h1>
+        <h2 className="text-xl pt-5 pb-2">Ingresar monto a pagar:</h2>
         <input
           type="number"
           name="bill"
