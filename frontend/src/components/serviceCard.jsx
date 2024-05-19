@@ -4,9 +4,9 @@ import foodIco from "../assets/icons/comida_ico.svg";
 import unlockIco from "../assets/icons/unlock.svg";
 import lockIco from "../assets/icons/lock.svg";
 
-const Card = () => {
+const Card = ({ nombre, precio, fecha, locked }) => {
     const navigate = useNavigate();
-    const [isLocked, setIsLocked] = useState(false); // Estado para manejar el icono
+    const [isLocked, setIsLocked] = useState(); // Estado para manejar el icono
 
     function onHandlerClick(menu) {
       navigate(`/${menu}`);
@@ -14,8 +14,8 @@ const Card = () => {
 
     function toggleLock() {
         // Redirige a la página "reserveMoney" cuando se hace clic en el botón de bloqueo/desbloqueo
-        navigate("budget/reserve-service");
-        setIsLocked(!isLocked);
+        setIsLocked(!locked);
+        navigate('budget/reserve-service' , { state: { nombre, precio, fecha, isLocked: !isLocked} });
     }
     
     return (
@@ -25,9 +25,9 @@ const Card = () => {
                     <embed src={foodIco} />
                 </div>
                 <div>
-                    <div className="text-lg font-bold">Nombre</div>
-                    <div className="text-base">$0.00</div>
-                    <div className="text-sm">Para: 24/05</div>
+                    <div className="text-lg font-bold">{nombre}</div>
+                    <div className="text-base">${precio}</div>
+                    <div className="text-sm">Para: {fecha}</div>
                 </div>
             </div>
             <button 
