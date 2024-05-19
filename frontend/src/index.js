@@ -8,6 +8,7 @@ import LayoutMenu from './pages/layoutMenu';
 import Budget from './pages/budget'
 import SplitBill from './pages/splitBill';
 import SplitBillSession from './pages/splitBillSession';
+import ReserveMoney from'./pages/reserveMoney';
 
 const router = createBrowserRouter([
   { 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "splitbill/session",
         element: <SplitBillSession/>
+      },
+      {
+        path: "budget/reserve-service",
+        element: <ReserveMoney/>
       }
     ]
   }
