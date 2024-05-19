@@ -180,12 +180,14 @@ const budgetData = {
       {
           id_userxsession: 1,
           id_user: 1,
-          id_session: "session-1-uuid"
+          id_session: 2,
+          total: 30
       },
       {
           id_userxsession: 2,
           id_user: 2,
-          id_session: 2
+          id_session: 2,
+          total: 50
       }
   ]
 };
