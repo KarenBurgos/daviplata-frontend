@@ -1,0 +1,1323 @@
+openapi: 3.0.1
+info:
+  title: Daviplata - Gestion Financiera
+  description: Esta es la documentación de como se planea implementar la API para las funcionalidades de gestion financiera
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+tags:
+  - name: Auth
+    description: Rutas relacionadas con la autenticación de usuarios
+  - name: User
+    description: Operaciones relacionadas con los usuarios
+  - name: Account
+    description: Operaciones relacionadas con las cuentas de usuario
+  - name: Budget
+    description: Operaciones relacionadas con los presupuestos
+  - name: Category
+    description: Operaciones relacionadas con las categorias
+  - name: Service
+    description: Operaciones relacionadas con los servicios de un presupuesto
+  - name: Session
+    description: Operaciones relaciondas con las sesiones de gastos compartidos
+  - name: UserXSession
+    description: Operaciones relacionadas con las sesiones y los usuarios
+  - name: Transfer
+    description: Operaciones relacionadas con las transferencias
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Iniciar sesión
+      description: Permite a un usuario iniciar sesión en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dui:
+                  type: string
+                  example: "123456789"
+                password:
+                  type: string
+                  format: password
+                  example: "contraseña123"
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token de autenticación generado para el usuario.
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Credenciales inválidas"
+
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Registrarse como nuevo usuario
+      description: Permite a un usuario registrarse como nuevo usuario en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dui:
+                  type: string
+                  example: "123456789"
+                name:
+                  type: string
+                  example: "John"
+                lastname:
+                  type: string
+                  example: "Doe"
+                email:
+                  type: string
+                  format: email
+                  example: "john.doe@example.com"
+                phone:
+                  type: string
+                  example: "123456789"
+                password:
+                  type: string
+                  format: password
+                  example: "contraseña123"
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario creado correctamente"
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+        '409':
+          description: Usuario ya existente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "El usuario ya existe en el sistema."
+
+  /user:
+    get:
+      tags:
+        - User
+      summary: Obtener todos los usuarios
+      description: Retorna una lista de todos los usuarios registrados en el sistema.
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - User
+      summary: Crear un nuevo usuario
+      description: Crea un nuevo usuario en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+  /user/{id}:
+    get:
+      tags:
+        - User
+      summary: Obtener un usuario por ID
+      description: Retorna un usuario específico por su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario a obtener
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Usuario obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuario no encontrado"
+    put:
+      tags:
+        - User
+      summary: Actualizar un usuario
+      description: Actualiza los datos de un usuario existente.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario a actualizar
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuario no encontrado"
+    delete:
+      tags:
+        - User
+      summary: Eliminar un usuario
+      description: Elimina un usuario existente por su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario a eliminar
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '204':
+          description: Usuario eliminado exitosamente
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuario no encontrado"
+  /accounts:
+    get:
+      tags:
+        - Account
+      summary: Obtener todas las cuentas
+      description: Devuelve una lista de todas las cuentas registradas en el sistema.
+      responses:
+        '200':
+          description: Lista de cuentas obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+    post:
+      tags:
+        - Account
+      summary: Crear una nueva cuenta
+      description: Permite crear una nueva cuenta en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: Cuenta creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+
+  /accounts/{id}:
+    get:
+      tags:
+        - Account
+      summary: Obtener detalles de una cuenta
+      description: Devuelve los detalles de una cuenta específica.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la cuenta a consultar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalles de la cuenta obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: Cuenta no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cuenta no encontrada"
+  /accounts/by-dui/{dui}:
+    get:
+      tags:
+        - Account
+      summary: Obtener cuenta por DUI
+      description: Devuelve la cuenta asociada a un número de DUI específico.
+      parameters:
+        - in: path
+          name: dui
+          required: true
+          description: Número de DUI asociado a la cuenta a consultar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cuenta obtenida correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: Cuenta no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cuenta no encontrada"
+  /budgets:
+    get:
+      tags:
+      - Budget
+      summary: Obtener todos los presupuestos
+      description: Devuelve todos los presupuestos registrados en el sistema.
+      responses:
+        '200':
+          description: Presupuestos obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Budget'
+        '404':
+          description: No se encontraron presupuestos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No se encontraron presupuestos"
+
+    post:
+      tags:
+        - Budget
+      summary: Crear un nuevo presupuesto
+      description: Permite crear un nuevo presupuesto en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Budget'
+      responses:
+        '201':
+          description: Presupuesto creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+
+  /budgets/{budgetId}:
+    get:
+      tags:
+      - Budget
+      summary: Obtener un presupuesto por su ID
+      description: Devuelve un presupuesto específico según su ID.
+      parameters:
+        - in: path
+          name: budgetId
+          required: true
+          description: ID del presupuesto a consultar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Presupuesto obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        '404':
+          description: Presupuesto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Presupuesto no encontrado"
+
+    put:
+      tags:
+      - Budget
+      summary: Actualizar un presupuesto existente
+      description: Permite actualizar los datos de un presupuesto existente.
+      parameters:
+        - in: path
+          name: budgetId
+          required: true
+          description: ID del presupuesto a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Budget'
+      responses:
+        '200':
+          description: Presupuesto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+        '404':
+          description: Presupuesto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Presupuesto no encontrado"
+
+    delete:
+      tags:
+      - Budget
+      summary: Eliminar un presupuesto existente
+      description: Permite eliminar un presupuesto existente del sistema.
+      parameters:
+        - in: path
+          name: budgetId
+          required: true
+          description: ID del presupuesto a eliminar
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Presupuesto eliminado correctamente
+        '404':
+          description: Presupuesto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Presupuesto no encontrado"
+  /categories:
+    get:
+      tags:
+        - Category
+      summary: Obtener todas las categorías
+      description: Obtiene la lista de todas las categorías disponibles.
+      responses:
+        '200':
+          description: Lista de categorías recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  
+  /categories/{id}:
+    get:
+      tags:
+        - Category
+      summary: Obtener una categoría por ID
+      description: Obtiene los detalles de una categoría específica según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la categoría a obtener
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Detalles de la categoría recuperados exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Categoría no encontrada
+  
+  /get/categories:
+    post:
+      tags:
+        - Category
+      summary: Crear una nueva categoría
+      description: Crea una nueva categoría con los datos proporcionados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: Categoría creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Error en los datos proporcionados para crear la categoría
+  
+  /update/categories/{id}:
+    put:
+      tags:
+        - Category
+      summary: Actualizar una categoría existente
+      description: Actualiza los datos de una categoría existente según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la categoría a actualizar
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: Categoría actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Error en los datos proporcionados para actualizar la categoría
+        '404':
+          description: Categoría no encontrada
+  
+  /delete/categories/{id}:
+    delete:
+      tags:
+        - Category
+      summary: Eliminar una categoría existente
+      description: Elimina una categoría existente según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la categoría a eliminar
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Categoría eliminada exitosamente
+        '404':
+          description: Categoría no encontrada
+          
+  /services:
+    get:
+      tags:
+        - Service
+      summary: Obtener todos los servicios
+      description: Obtiene la lista de todos los servicios disponibles.
+      responses:
+        '200':
+          description: Lista de servicios recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+  
+  /services/{id}:
+    get:
+      tags:
+        - Service
+      summary: Obtener un servicio por ID
+      description: Obtiene los detalles de un servicio específico según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del servicio a obtener
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Detalles del servicio recuperados exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: Servicio no encontrado
+  
+  /add/services:
+    post:
+      tags:
+        - Service
+      summary: Crear un nuevo servicio
+      description: Crea un nuevo servicio con los datos proporcionados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '201':
+          description: Servicio creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          description: Error en los datos proporcionados para crear el servicio
+  
+  /update/services/{id}:
+    put:
+      tags:
+        - Service
+      summary: Actualizar un servicio existente
+      description: Actualiza los datos de un servicio existente según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del servicio a actualizar
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: Servicio actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          description: Error en los datos proporcionados para actualizar el servicio
+        '404':
+          description: Servicio no encontrado
+  
+  /delete/services/{id}:
+    delete:
+      tags:
+        - Service
+      summary: Eliminar un servicio existente
+      description: Elimina un servicio existente según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del servicio a eliminar
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Servicio eliminado exitosamente
+        '404':
+          description: Servicio no encontrado
+  /sessions:
+    get:
+      tags:
+        - Session
+      summary: Obtener todas las sesiones
+      description: Obtiene la lista de todas las sesiones registradas en el sistema.
+      responses:
+        '200':
+          description: Lista de sesiones recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+
+  /sessions/{id}:
+    get:
+      tags:
+        - Session
+      summary: Obtener una sesión por ID
+      description: Obtiene los detalles de una sesión específica según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la sesión a obtener
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Detalles de la sesión recuperados exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          description: Sesión no encontrada
+
+  /new-session:
+    post:
+      tags:
+        - Session
+      summary: Crear una nueva sesión
+      description: Crea una nueva sesión con los datos proporcionados.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Session'
+      responses:
+        '201':
+          description: Sesión creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Error en los datos proporcionados para crear la sesión
+
+  /deletet/session/{id}:
+    delete:
+      tags:
+        - Session
+      summary: Eliminar una sesión existente
+      description: Elimina una sesión existente según su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID de la sesión a eliminar
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Sesión eliminada exitosamente
+        '404':
+          description: Sesión no encontrada
+          
+  /userxsession/users/{id_session}:
+    get:
+      tags:
+        - UserXSession
+      summary: Obtener todos los usuarios de una sesión
+      description: Obtiene todos los usuarios que participan en una sesión específica.
+      parameters:
+        - in: path
+          name: id_session
+          required: true
+          description: ID de la sesión para la cual se desean obtener los usuarios
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Usuarios de la sesión recuperados exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserXSession'
+
+  /userxsession/sessions/{id_user}:
+    get:
+      tags:
+        - UserXSession
+      summary: Obtener todas las sesiones de un usuario
+      description: Obtiene todas las sesiones en las que participa un usuario específico.
+      parameters:
+        - in: path
+          name: id_user
+          required: true
+          description: ID del usuario para el cual se desean obtener las sesiones
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Sesiones del usuario recuperadas exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserXSession'
+
+  /userxsession/host-sessions/{id_user_host}:
+    get:
+      tags:
+        - UserXSession
+      summary: Obtener todas las sesiones de un usuario anfitrión
+      description: Obtiene todas las sesiones que un usuario anfitrión específico ha creado.
+      parameters:
+        - in: path
+          name: id_user_host
+          required: true
+          description: ID del usuario anfitrión para el cual se desean obtener las sesiones
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Sesiones del usuario anfitrión recuperadas exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserXSession'
+  /userxsession:
+    post:
+      tags:
+        - UserXSession
+      summary: Agregar usuario a sesión
+      description: Agrega un usuario a una sesión existente.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserXSession'
+      responses:
+        '200':
+          description: Relación creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserXSession'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+        '409':
+          description: Relación ya existente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "La relación entre usuario y sesión ya existe en el sistema."
+
+    delete:
+      tags:
+        - UserXSession
+      summary: Eliminar usuario de sesión
+      description: Elimina la relación entre un usuario y una sesión.
+      parameters:
+        - in: query
+          name: id_userxsession
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID de la relación usuario-sesión que se desea eliminar.
+      responses:
+        '200':
+          description: Relación eliminada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Relación eliminada correctamente"
+        '404':
+          description: Relación no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "La relación usuario-sesión especificada no fue encontrada en el sistema."
+  /transfers:
+    get:
+      tags:
+        - Transfer
+      summary: Obtener todas las transferencias
+      description: Obtiene todas las transferencias realizadas en el sistema.
+      responses:
+        '200':
+          description: Lista de transferencias obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+        '404':
+          description: No se encontraron transferencias
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No se encontraron transferencias en el sistema."
+
+    post:
+      tags:
+        - Transfer
+      summary: Realizar una transferencia
+      description: Permite a un usuario realizar una transferencia de dinero a otro usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfer'
+      responses:
+        '200':
+          description: Transferencia realizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error al procesar la solicitud. Por favor, verifique los datos enviados."
+        '404':
+          description: Usuario o estado de transferencia inválido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Usuario o estado de transferencia inválido."
+
+  /transfers/{id}:
+    delete:
+      tags:
+        - Transfer
+      summary: Cancelar transferencia
+      description: Cancela una transferencia realizada.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID de la transferencia que se desea cancelar.
+      responses:
+        '200':
+          description: Transferencia cancelada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Transferencia cancelada correctamente"
+        '404':
+          description: Transferencia no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "La transferencia especificada no fue encontrada en el sistema."
+  /users/{userId}/transfers:
+    get:
+      tags:
+        - Transfer
+      summary: Obtener transferencias de un usuario
+      description: Obtiene todas las transferencias realizadas por un usuario específico.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID del usuario del cual se desean obtener las transferencias.
+      responses:
+        '200':
+          description: Lista de transferencias obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+        '404':
+          description: No se encontraron transferencias para el usuario especificado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No se encontraron transferencias para el usuario especificado."
+
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id_user:
+          type: string
+          example: "1"
+        dui:
+          type: string
+          example: "123456789"
+        name:
+          type: string
+          example: "John"
+        lastname:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          example: "123456789"
+        password:
+          type: string
+          format: password
+          example: "contraseña123"
+    Account:
+      type: object
+      properties:
+        id_account:
+          type: string
+          format: uuid
+          description: ID único de la cuenta
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        account_number:
+          type: string
+          description: Número de cuenta
+          example: "0123456789"
+        money:
+          type: number
+          format: float
+          description: Saldo de la cuenta
+          example: 100.50
+        id_user:
+          type: string
+          format: uuid
+          description: ID del usuario asociado a la cuenta
+          example: "123e4567-e89b-12d3-a456-426614174001"
+      required:
+        - account_number
+        - money
+        - id_user
+    Budget:
+      type: object
+      properties:
+        id_budget:
+          type: string
+          format: uuid
+          description: ID único del presupuesto
+        total_budget:
+          type: number
+          format: double
+          description: Total del presupuesto
+        id_user:
+          type: string
+          format: uuid
+          description: ID del usuario asociado al presupuesto
+      required:
+        - total_budget
+        - id_user
+    Category:
+      type: object
+      properties:
+        id_category:
+          type: string
+          format: uuid
+          description: ID único de la categoría
+        name:
+          type: string
+          description: Nombre de la categoría
+      required:
+        - name
+    Service:
+      type: object
+      properties:
+        id_service:
+          type: string
+          format: uuid
+          description: ID único del servicio
+        name:
+          type: string
+          description: Nombre del servicio
+        amount:
+          type: number
+          format: float
+          description: Monto del servicio
+        isBlocked:
+          type: boolean
+          description: Estado del servicio (bloqueado/desbloqueado)
+        date_:
+          type: string
+          format: date
+          description: Fecha del servicio
+        id_category:
+          type: string
+          format: uuid
+          description: ID de la categoría a la que pertenece el servicio
+        id_budget:
+          type: string
+          format: uuid
+          description: ID del presupuesto asociado al servicio
+      required:
+        - name
+        - amount
+        - isBlocked
+        - date_
+        - id_category
+        - id_budget
+    Session:
+      type: object
+      properties:
+        id_session:
+          type: string
+          format: uuid
+          description: ID único de la sesión
+        timestamp:
+          type: string
+          format: date-time
+          description: Marca de tiempo de la sesión
+        code:
+          type: string
+          description: Código de identificación de la sesión
+        total:
+          type: number
+          format: float
+          description: Total de la sesión
+        status:
+          type: boolean
+          description: Estado de la sesión
+        id_user_host:
+          type: string
+          format: uuid
+          description: ID del usuario anfitrión de la sesión
+      required:
+        - timestamp
+        - code
+        - status
+        - id_user_host
+    UserXSession:
+      type: object
+      properties:
+        id_userxsession:
+          type: string
+          format: uuid
+          description: ID de la relación usuario-sesión
+        id_user:
+          type: string
+          format: uuid
+          description: ID del usuario
+        id_session:
+          type: string
+          format: uuid
+          description: ID de la sesión
+      required:
+        - id_userxsession
+        - id_user
+        - id_session
+    Transfer:
+      type: object
+      properties:
+        id_transfer:
+          type: string
+          format: uuid
+          description: ID de la transferencia
+        date_transfer:
+          type: string
+          format: date-time
+          description: Fecha y hora de la transferencia
+        amount:
+          type: number
+          format: float
+          description: Monto de la transferencia
+        id_status:
+          type: string
+          format: uuid
+          description: ID del estado de la transferencia
+        id_user_transmitter:
+          type: string
+          format: uuid
+          description: ID del usuario que realiza la transferencia
+        id_user_receiver:
+          type: string
+          format: uuid
+          description: ID del usuario que recibe la transferencia
+      required:
+        - id_transfer
+        - date_transfer
+        - amount
+        - id_status
+        - id_user_transmitter
+        - id_user_receiver
