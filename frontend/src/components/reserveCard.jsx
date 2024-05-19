@@ -1,20 +1,24 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const ReserveCard = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    const { nombre, precio, fecha, isLocked } = location.state || {};
 
     // Datos quemados para demostración
     const nombreGasto = "Compras en el supermercado";
-    const montoBloquear = 100; // $100.00
+    const montoBloquear = precio || 0; // $100.00
     const saldoActual = 500; // $500.00
     const saldoRestante = saldoActual - montoBloquear;
 
     const handleConfirm = () => {
         // Lógica de confirmación...
         console.log("Aceptar");
+        console.log(isLocked);
         // Redireccionar a "/"
-        navigate("/");
+        navigate('/' , { state: { nombre, precio, fecha, isLocked: !isLocked} });
     };
 
     const handleCancel = () => {
