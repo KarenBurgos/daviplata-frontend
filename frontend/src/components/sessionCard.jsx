@@ -2,7 +2,7 @@ import userIcon from "../assets/icons/User.svg";
 import { useState } from "react";
 function SessionCard({ selection }) {
   return (
-    <div className="border border-white rounded-md flex w-[80%] text-lg">
+    <div className="border border-white rounded-md flex text-lg">
       <div className="p-5">
         <embed src={userIcon} type="" />
       </div>
@@ -18,7 +18,7 @@ function SessionCard({ selection }) {
             name="bill"
             id="bill"
             placeholder="$0.00"
-            className="bg-transparent border border-white rounded-md p-1 w-[40%]"
+            className="bg-transparent border border-white rounded-md md:w-[10vw] p-1 w-[20vw]"
           />
           {selection == "porcentaje" && (
             <input
@@ -26,7 +26,7 @@ function SessionCard({ selection }) {
               name="percentaje"
               id="percentaje"
               placeholder="50"
-              className="bg-transparent border border-white rounded-md p-1 w-[40%] ml-2"
+              className="bg-transparent border border-white rounded-md p-1 w-[20vw] md:w-[10vw] ml-2"
             />
           )}
         </span>
