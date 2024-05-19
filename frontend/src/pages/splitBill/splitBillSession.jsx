@@ -1,14 +1,41 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../assets/radioInput.css";
 import SessionCard from "../../components/sessionCard";
 import optionsIcon from "../../assets/icons/options.png";
+import budgetData from "../../data/budgetData"; // Asegúrate de importar tu dummy data
+
+const loadBudgetData = () => {
+  const data = localStorage.getItem('budgetData');
+  return data ? JSON.parse(data) : budgetData;
+};
 
 const SplittBillSession = () => {
   const navigate = useNavigate();
-
   const [options, setOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState("equitativo");
+  const [sessionCode, setSessionCode] = useState("");
+  const [sessionTotal, setSessionTotal] = useState(0);
+  const [sessionUsers, setSessionUsers] = useState([]);
+
+  useEffect(() => {
+    // Cargar los datos desde localStorage
+    const budgetData = loadBudgetData();
+
+    // Encontrar la última sesión creada (suponiendo que es la más reciente)
+    const lastSession = budgetData.sessions[budgetData.sessions.length - 1];
+    setSessionCode(lastSession.code);
+    setSessionTotal(lastSession.total);
+
+    // Encontrar usuarios que pertenecen a la última sesión creada
+    const userSessions = budgetData.userSessions.filter(
+      (us) => us.id_session === lastSession.id_session
+    );
+    const users = userSessions.map((us) =>
+      budgetData.users.find((user) => user.id_user === us.id_user)
+    );
+    setSessionUsers(users);
+  }, []);
 
   function onHandlerNavigate(menu) {
     navigate(`/${menu}`);
@@ -34,7 +61,7 @@ const SplittBillSession = () => {
   return (
     <div className="text-white text-2xl flex flex-col justify-center items-center">
       <h1 className="mt-4 mb-1 text-xl font-bold">DIVIDIR GASTOS SALA</h1>
-      <p className="mb-4 text-xs">codigo: #########</p>
+      <p className="mb-4 text-md">codigo: {sessionCode}</p>
       <span className="relative flex items-center">
         <h2 className="text-lg">Personas en la sala</h2>
         <button className="cursor-pointer" onClick={handleOptionView}>
@@ -86,20 +113,16 @@ const SplittBillSession = () => {
           </form>
           <div className="flex text-lg justify-center items-center">
             <h2>Total:</h2>
-            <input className="bg-transparent px-2 py-1 w-[30%]" value="$0.00" />
+            <input className="bg-transparent px-2 py-1 w-[30%]" value={`$${sessionTotal.toFixed(2)}`} readOnly />
           </div>
         </div>
       )}
       <div className="flex flex-col justify-around overflow-hidden overflow-y-auto w-[75%] h-[50vh] mt-4">
-        <div className="pt-10">
-          <SessionCard selection={selectedOption} />
-        </div>
-        <div className="pt-10">
-          <SessionCard selection={selectedOption} />
-        </div>
-        <div className="pt-10">
-          <SessionCard selection={selectedOption} />
-        </div>
+        {sessionUsers.map((user) => (
+          <div className="pt-10" key={user.id_user}>
+            <SessionCard selection={selectedOption} user={user} />
+          </div>
+        ))}
       </div>
       <div className="flex items-center pt-5"> 
         <button

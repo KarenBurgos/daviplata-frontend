@@ -5,7 +5,7 @@ const ReserveCard = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    const { nombre, precio, fecha, isLocked } = location.state || {};
+    const {id, nombre, precio, fecha, isLocked } = location.state || {};
 
     // Datos quemados para demostración
     const nombreGasto = "Compras en el supermercado";
@@ -13,12 +13,27 @@ const ReserveCard = () => {
     const saldoActual = 500; // $500.00
     const saldoRestante = saldoActual - montoBloquear;
 
+    console.log(id);
+
     const handleConfirm = () => {
         // Lógica de confirmación...
         console.log("Aceptar");
         console.log(isLocked);
+        
+        const budgetList = JSON.parse(localStorage.getItem('budgets'));
+
+        const updatedBudgets = budgetList.map(budget => {
+            if (budget.id_service === id) {
+              return { ...budget, isBlock: false }; // Actualiza la edad de Bob a 31
+            }
+            return budget;
+          });
+
+          // Subir la nueva lista al localStorage
+        localStorage.setItem('budgets', JSON.stringify(updatedBudgets));
+
         // Redireccionar a "/"
-        navigate('/usuario' , { state: { nombre, precio, fecha, isLocked: !isLocked} });
+        navigate('/usuario');
     };
 
     const handleCancel = () => {

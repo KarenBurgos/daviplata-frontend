@@ -1,6 +1,7 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
+import budgetData from "../../data/budgetData"; // Importar dummy data
 
 function SplittBill() {
   const navigate = useNavigate();
@@ -20,7 +21,37 @@ function SplittBill() {
   }
 
   function handleAccept() {
-    navigate("session/pay");
+    // Cargar datos desde localStorage o usar dummy data
+    let data = localStorage.getItem('budgetData');
+    data = data ? JSON.parse(data) : budgetData;
+
+    const session = data.sessions.find(session => session.code === code);
+
+    if (session) {
+      // Agregar el usuario a sessionxusers
+      const userDui = "12345678-9";
+      // const userDui = localStorage.getItem('dui'); // Obtener el DUI del usuario del localStorage
+      const user = data.users.find(user => user.DUI === userDui);
+
+      if (user) {
+        data.userSessions.push({
+          id_user: user.id_user,
+          id_session: session.id_session,
+        });
+
+        // Guardar los cambios en localStorage
+        localStorage.setItem('budgetData', JSON.stringify(data));
+
+        // Navegar a la página de la sesión pasando el código de la sesión
+        navigate("/usuario/splitbill/session/pay", { state: { sessionCode: code } });
+      } else {
+        alert("Usuario no encontrado.");
+      }
+    } else {
+      alert("Código de sesión no válido.");
+    }
+
+    closeModal();
   }
 
   return (
@@ -75,12 +106,12 @@ function SplittBill() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-center py-2 text-white"
                   >
-                    Ingresar codigo de sala
+                    Ingresar código de sala
                   </Dialog.Title>
                   <div className="mt-2">
                     <input
                       type="text"
-                      className="w-full px-4 py-2 border bg-background border-white rounded-md focus:outline-none"
+                      className="w-full text-white px-4 py-2 border bg-background border-white rounded-md focus:outline-none"
                       placeholder="Código de la sala"
                       value={code}
                       onChange={(e) => setCode(e.target.value)}

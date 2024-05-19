@@ -23,6 +23,8 @@ const Card = () => {
         }
     };
 
+    
+
     const incrementAmount = () => {
         setAmount((prevAmount) => (parseFloat(prevAmount) + 1).toFixed(2)); // Aumentar y formatear a 2 decimales
     };
@@ -116,7 +118,7 @@ const Card = () => {
                 <label className="block text-sm font-medium mb-2">Fecha:</label>
                 <div className="flex items-center">
                     <input
-                        type="text"
+                        type="date"
                         placeholder="DD/MM/AAAA"
                         className="block w-full px-4 py-2 text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         value={date}
