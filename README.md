@@ -33,6 +33,11 @@ La funcionalidad de compartir gastos permite a los usuarios dividir los gastos c
 
 - **React:** Para la construcción de la interfaz de usuario.
 
+## A implementar:
+
+- **Spring Boot:** Para la construccion del backend de la aplicacion.
+- **Postresql:** Como base de datos
+
 ## Conclusión
 
 Esta aplicación web desarrollada con React ofrece una solución integral para la gestión financiera personal y colaborativa. Con sus funcionalidades de bloqueo de presupuestos, automatización de pagos y compartir gastos entre amigos, los usuarios pueden manejar sus finanzas de manera más eficiente y evitar conflictos financieros con sus amigos.
