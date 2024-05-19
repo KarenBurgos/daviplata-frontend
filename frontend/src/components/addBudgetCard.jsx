@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Dropdown from '../components/categories';
-import datepicker from '../assets/icons/datepicker.svg'
+import datepicker from '../assets/icons/datepicker.svg';
 
 const Card = () => {
     const navigate = useNavigate();
@@ -17,16 +19,22 @@ const Card = () => {
     };
 
     const handleConfirm = () => {
-        // Lógica de confirmación...
-        console.log("Aceptar");
-        // Redireccionar a "/"
-        navigate("/usuario");
+        //navigate("/usuario");
+        // Mostrar un toast de confirmación
+        toast.success("Servicio agregado con éxito", {
+            position: "top-right",
+            autoClose: 1500, // Cerrar automáticamente después de 3 segundos
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            onClose: () => navigate("/usuario") // Redireccionar después de cerrar el toast
+        });
     };
 
-    const handleCancel = () => {
-        // Lógica de cancelación...
-        console.log("Cancelar");
-        // Redireccionar a "/"
+    const  handleCancel = () => {
+        // Redireccionar a la página /budget
         navigate("/usuario");
     };
 
@@ -103,8 +111,10 @@ const Card = () => {
                     Cancelar
                 </button>
             </div>
+            <ToastContainer />
         </div>
     );
 };
 
 export default Card;
+
